@@ -14,27 +14,51 @@ public class PostorderTraversal
   public static void getPOSTOrderIterative(TreeImpl root)
   {
     Stack<TreeImpl> s1 = new Stack<>();
+    Stack<TreeImpl> s2 = new Stack<>();
     if(root == null) return;
-    TreeImpl temp=root;
+    s1.push( root );
+    // 1st apporach using 2 stack
     while(true)
     {
-      while(temp!=null)
-      {
-        s1.push( temp );
-        temp=temp.left;
-      }
       if(s1.isEmpty()) break;
+      TreeImpl temp = s1.pop();
+     s2.push( temp );
+     if(temp.left!=null) s1.push( temp.left );
+      if(temp.right!=null) s1.push( temp.right );
+    }
+    while(!s2.isEmpty())
+    {
+      System.out.print(s2.pop().val + "  ");
+    }
+    // 2nd approach using 1 stack
+
+    /*while(root!=null || !s.isEmpty())
+    {
+      if(root!=null)
+      {
+        s.push( root );
+        root = root.left;
+      }
       else
       {
-        temp=s1.peek();
-        if(temp.right==null)
+        Node temp = s.peek().right;
+        if(temp==null)
         {
-          temp = s1.pop();
-          System.out.print( temp.val + " " );
+          temp=s.pop();
+          System.out.print( temp.val + " ");
+          while(!s.isEmpty()&& temp == s.peek().right)
+          {
+            temp = s.pop();
+            System.out.print( temp.val + " ");
+          }
         }
-          temp = temp.right;
+        else
+        {
+          root = temp;
+        }
+
       }
-    }
+    }*/
   }
 
   public static void main( String[] args )

@@ -9,21 +9,40 @@ import java.util.Queue;
 public class LevelOrder
 {
 
-  public static void doLevelOrder(TreeImpl root)
+  public static void doLevelOrderIterative(TreeImpl root)
   {
     Queue<TreeImpl> q1 = new LinkedList<>();
-    if(root==null) return;
+    if( root == null ) return;
     q1.add( root );
-    while(!q1.isEmpty())
+    while( !q1.isEmpty() )
     {
-        TreeImpl temp=q1.remove();
-        System.out.print(temp.val + "  ");
-        if(temp.left!=null)q1.add( temp.left );
-        if(temp.right!=null)q1.add( temp.right );
+      TreeImpl temp = q1.remove();
+      System.out.print( temp.val + "  " );
+      if( temp.left != null ) q1.add( temp.left );
+      if( temp.right != null ) q1.add( temp.right );
     }
-
-
   }
+
+    public static void doLevelOrderRecurrsive(TreeImpl root)
+    {
+      if(root == null) return;
+      int height = getCurrentTreeHeight(root);
+      for(int i=0;i<height;i++)
+      {
+        printNodeForCurrentLevel(root,i);
+      }
+    }
+    public static int getCurrentTreeHeight(TreeImpl root)
+    {
+      if(root== null) return 0;
+      return Math.max(getCurrentTreeHeight(root.left),getCurrentTreeHeight(root.right))+1;
+    }
+    public static void printNodeForCurrentLevel(TreeImpl root,int level)
+    {
+      if( level == 0 ) { System.out.print(root.val + " "); return;}
+      if(root.left!=null)printNodeForCurrentLevel( root.left,level-1 );
+      if(root.right!=null)printNodeForCurrentLevel( root.right,level-1 );
+    }
   public static void main( String[] args )
   {
     TreeImpl t1 = new TreeImpl(1);
@@ -48,6 +67,7 @@ public class LevelOrder
     t5.right=t9;
     t6.right=t10;
     t7.left=t11;
-    doLevelOrder(t1);
+    doLevelOrderIterative(t1);
+    doLevelOrderRecurrsive( t1 );
   }
 }

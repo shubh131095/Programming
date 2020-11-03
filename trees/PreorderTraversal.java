@@ -31,6 +31,16 @@ public class PreorderTraversal
         temp=temp.right;
       }
     }
+    // 2nd way
+   /* s.push(root);
+    while(true)
+    {
+      if(s.isEmpty()) return;
+      root = s.pop();
+      System.out.print(root.val + " ");
+      if( root.right!=null) s.push(root.right);
+      if(root.left!=null) s.push( root.left );
+    }*/
   }
 
   public static void main( String[] args )

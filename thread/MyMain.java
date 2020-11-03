@@ -9,6 +9,9 @@ public class MyMain
     ThreadsImpl t3 = new ThreadsImpl();
     System.out.println("caliing threads now");
 
+    /*t1.run();
+    t2.run();
+    t3.run();*/
     t1.start();
     t2.start();
     t3.start();
