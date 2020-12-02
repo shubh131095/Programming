@@ -1,0 +1,28 @@
+- Spring boot is used to create stand-alone java application
+- It makes spring application development easy by doing neccesary configurations.
+
+- for creating spring boot project
+		- requirements
+		   -> java , maven , apache tomcat.
+		- for running spring boot application you can use 2 things
+		- 1. spring CLI -> download , set environemnt variable ( spring_home variable and path) and then run spring project using spring run <class_name> bot command).
+		- 2. Spring tool suite ( extension in IDE)
+		
+- creating a spring boot application
+	- when u create a sprint boot application. the main class will contain main method. and inside that we are calling run method of spring. which actually create the spring container which creates all the beans/object;
+	- if you want to convert any class into a bean you have to specify @component.
+	- by default all the class with @component will be singleton type. and it will be created at the time of spring container creation.
+	- if you dont want to create that object in singelton mode , use @scope(value="prototype") in that class.
+	- now whenevr u want the object of a class u dont have to create a new object it will be given by spring container this is dependcy injection;
+	- now let say some class is dependent on another class, i.e class A contains object of class b as memeber, now when we call A we need object of class b before hand. in spring they are not mapped by default, you have to use @Autowire to map that object.
+	- spring by dfault create all object using class name, if you want to change the name inside component annotation give any name, now spring will convert object of that with that given name
+	- the autowired annotation serach the class by type whereas another annotation Qualifier is present which can also be used to map the object it seraches/map class using name.
+	- for following mvc structure you can use modelandview object and set the view name and object.
+	- in ModelAndView you have to set 2 things
+		- setViewName() and addObject(objectname,objectValue).
+	- you can set multiple object. now the data is known as model and view is the view.
+	- this redirection followed by springboot is basically requestdispatcher when compared to servlet.
+	- using this u can send data to diffrent view from a view and the exexcution goes on.
+	- All the objects like HttpServlet request,response,session,servletconfig,servletcontext are injected by spring so u can use it directly without creating.
+	-FOr accessing the querystring parameter directly we can use @RequestParam("param name") annotaion inside the func parameter
+		- for eample public ModelAndView home(@RequestParam("name") String myName) , here the parameter name passed in querystring will be captured inside myname variable.

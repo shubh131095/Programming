@@ -1,0 +1,23 @@
+-Hibernate is based on JPA (java persistance Api)
+- It provide ease for Database connectivity
+- Through Hiberante You can connect to your database through your application and apply CRUD operations.
+- IT provide both XML and Annotation based configurations
+- for creating a simple project using hibernate u need following thing
+	- create a class which u will store in db as table ( entity)
+	- Add hibernate depedncy.
+	- Create the object of SessionFactory( one of the imp interface of Hibernate)
+	- for creating obj of session factory You need configuration class buildSessionfactory method.
+	- for creating confuguration object you need configure method.
+	- configure method loads the hibernate.cfg.xml file which is default name, you can change it and pass to configure method.
+	- it should be pressent in main/resources directory
+	- This conf file contains sevral database config require for hibernate to connect with db.
+		- hibernate.dialect
+		- hibernate.connection.driver_class
+		-connection.url
+		-connection.password
+		-connection.username
+		-hibernate.hbm2ddl.auto -> value update/create will be used to create class into table if already not present.
+		-using sessionfactory object create session object.
+		- using session object you can save or get data from databse.
+		- if youre inserting/updating database you have to create transaction obect using session and you have to begin and comit for changes to be affected in db.
+	- 

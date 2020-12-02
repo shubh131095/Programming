@@ -18,5 +18,7 @@ public class StrStr
     String s1 = "an";
     int ans = strstr( s,s1 );
     System.out.println(ans);
+
+
   }
 }

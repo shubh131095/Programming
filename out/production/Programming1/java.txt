@@ -1,0 +1,572 @@
+Java
+
+- String tokenization
+	a. tokenizer class (depricated) -> StringTokenizer = new StringTokenizer("String","delimter",flag)
+		- default delimter is space.
+		- flag is used to conised/ignore the deilimeter as a token.(if true delimeter will be considered as a token)
+		- st.hasMoretoken can be used to iterate over string and st,nextToken can be used to access the token
+	
+	b. String split method
+		- String[] s = new String("String").split("regex");
+		-it returns an aaray of strings based on regex pattern.
+		
+- REgex in Java
+
+	a. Pattern
+		- this class is used to create regex pattern
+		- Pattern p1 = Pattern.compile("regex","flags")
+		- you cannot create an object of this becz its private
+		-Pattern.CASE_INSENSITIVE,Pattern.LITERAL(all special char will lose its special meaning),Pattern.UNICODE_CASE
+	
+	b. Matcher
+		- Use this to matche pattern with you string
+		- Matcher m1 = Pattern.matcher("String") (matches can also be used but it returns true or false if regex is found)
+		- m1.find() can be used to find if string is there or not
+		
+		
+- Comparator and Comparable
+	- For using sort function provided by java to a user defined list we need this two
+	- example lets say you have List<Some_class> A1 and you perform Collection.sort(A1), it will not work as sort doesnt work with class objects
+	a. For using comparable
+		- You need to implement the comparable class into the list_object, here in Some_class Class and override methode compareTo which will used for sort basis.(use "this" for accessing 1 object and other object in parameter. return +number if you want to sort and -ver no if u dont want to sort. and 0 for duplicate
+	b. For using comparator
+		- you use comparator when u cannot implement comparble class on list_object class or the default compareto function dont fulfil your purpose.
+		
+	- Both are Interface with exactly one function
+	- BY defualt both will be invoked using collections.sort(object) method, if u have comparable implemneted on the class whose object ur using it will use that,otheriwse you can also pass a comparator object along with class object to use comparator i.e collections.sort(object,comparator_object).
+	- Comparable provide compareTO function -> only one parameter you have to use this refernce for comprasion
+	- Comparator provide compare function -> 2 parameters
+	- comparable are used when u want to sort on natural basis.( if u implement this u can use only filed to sort based on your requirement , rest will be sorted naturally)
+	- Comparator are used when u want to sort diffrenet filed based on your requirment.
+	- For using comprator you can create class of all the fields and implement comparator there, since comparator takes
+	
+- JDK JVM JRE
+	
+	a. JRE -> contains the jvm to run java program in computer.
+	b. JDK -> contain JRE + complier so that u can develop/build java code
+	c. JVM -> It runs the class file build by compling java code or it runs the bytecode (heart of java).
+	
+- Input
+
+	a. Scanner
+		-use scanner class for input. easy but slower than buffered reader and not syncronised.
+		Scanner sc = new Scanner( System.in );
+		System.out.println("eneter anything");
+		String ss = sc.nextLine();
+		int aa = sc.nextInt();
+		double dd = sc.nextFloat();
+		
+	b. Buffererd reader
+		- use buffered reader  for faster reading.
+		BufferedReader bfr = new BufferedReader( new InputStreamReader( System.in ) );
+		System.out.println("eneter anything");
+		String b = bfr.readLine();
+		int c = Integer.parseInt( bfr.readLine());
+		double d = Double.parseDouble(bfr.readLine()  );
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int n = Integer.parseInt(st.nextToken());
+		int k = Integer.parseInt(st.nextToken());
+		
+- Static and non static
+	
+	a. Static
+		- static vairable are class variable and it doesnt get created for each object.
+		- static vairable can be used in both satic and non-static method.
+	b. non-static
+		- non-static vairable are instance variable and its get created for each object.
+		- non-static vairable can be used in only  non-static method.
+
+- You can use printf for fomatting of output.like c
+
+- Access modifiers
+
+	a. Public -> visible everywhere
+	b. private -> only in class
+	c. protected -> packages and all subclass (consider for inheritance)(sub class of other pacakge class can also access)
+	d. default(dont need the keyword) -> package (sub class of other pacakge class cannot access)
+	
+- StringBuffer is slow but Thread safe and stringBuilder is fast but not thread safe
+- Inheritance is an example of IS-A relationship
+- when a class contain another class object as a vriable it is Has-A relntship.
+- Accessor and mutator are coname of getter and setter
+
+- Method overloading/polymorphishm can be achived by following ways
+	- diff number of arg
+	- type of parameter is diff
+	- order of the parameters
+	-* if the method signature has only diffrence of static keyword it throws error (not overloading)
+	
+- Static methods can also be overloaded
+- Static methods cannot be overrrided
+- overrided methods can be overloaded in subclass.
+	
+- primitive data type values dont accept null values but their wrapper class does
+	- example int cannot be null but Integer can be
+- primitive data types are little faster but wrapper class provide extra methods + handle null	
+	
+- Final keyword
+	- variable -> for constant and cannot be changed ( blank final vaiable msut be intiailized in constructor)
+	- function -> cannot be overriden.
+	- class -> cannot be inherited ( like string class)
+	
+- Binding -> getting the fucntion body when its called is binding.
+	- Dynamic binding -> uses object to resolve binding at run time ( example overrding)
+	- Static binding -> uses type of class and fileds bind at complie time(overloading )
+
+- Abstarction -> hiding imlementation, can be acheived by 2 ways
+	- using abstract class
+	- using interface
+	
+- Interface 
+	- can contain vriable only if they are static and final(if you dont write complier will add automatically).
+	- interface extend another interface
+	- we can now define function in interface using default/static	
+	- it is done so that ading new functions in exisiting interfaces will not give error to classes who is implementing the same Interface.
+	- by giving above functinality one ambiquity(diamond problem) which come de to multple inhertinace occurs.
+		- example A has show(), B has show() and C implement A and B, now since defination can also present of show in A&B it will give error, to solve this you have to implementation
+			show() in C also.
+		- example, take above example only now you have one more class D which extends C and implement A. now you have show() in both C and A.so now what will happen.
+			no error will come, the show method of C will be called from D becz class has more priority then interface.
+	- you cannot override object class method in interface(exact signature)
+	- Types of interface
+		- Normal
+		- functional ( with only one method) 
+		- Marker (no methods)
+			- the use of marker I is to mark any class for any special features.
+			- example
+			Interface A {} // marker interface
+			class B iplemenet A { fuctions... } // this class is now instance of A.
+			now whenever you want to perform any operation only on certain condtion then this will be used
+			let say you want to serliaze a object but every object cannot be seralize, so u mark ur class as seralizable by implemeneting seralizable interface(marker one),letting java know that object of this class is seriazable.
+			later when u want to serialze just check whether the class is instance of seriazable if yes then do it.
+
+- For abstract class we directly cannot create object / instaintie the class but the object is created by complier i.e abstact inheritance is object-object inheritance
+	
+- Exception
+	- checked excpetion -> complie time, must be handled in try ctach or should be thrown
+	- unchecked exception -> runtime , can be avoided no compliation errror
+	- error -> cannot be handled and recover
+	 
+- An exception in the finally block, behaves exactly like any other exception.
+- The circumstances that prevent execution of the code in a finally block are:
+	– The death of a Thread
+	– Using of the System. exit() method.
+	– Due to an exception arising in the finally block.
+	
+- Throw
+	- used to create custom exception.
+	- the exception thrown must be instance/subclass of Throwable .
+	- after throw the exceutionhalts and it serach for catch block
+	
+-Throws
+	-added in method signature to tell the caller it can thorw this exception.
+	- caller has to handle the thrown exception or rethrow it.
+	
+-Blocks in Java
+	- Non-static block
+		- always run when a object is created before constructor is called.
+		- can access both static and non static-member
+	- Static block
+		- always run once when the class is loaded ( even if object is not created)
+		- genrally used to intiailize static variable of the class
+		- can access static member of class only.
+		
+- we cannot created local static variable in a method in java.
+-
+
+- Static class / sttaic nested class
+	- the static clss must be nested class
+	- doesnt need instantiation of outer class for its own instantiation.
+	- can access only static member of outer class.
+	
+- Non-static nested class / Inner class
+	- need instantiation of outer class for its own instantiation.
+	- can access both static and non-static member of outer class
+	- cannot create a static method in inner class.
+	
+- Anonymous inner class
+	- a class whose only one object can be created 
+	- it doesnt have any name
+	- it can be used to create object of an interface.
+	- It can implement an interface that contains any number of abstract methods.
+	- You can create new methods inside anonymous-inner-class
+	- At the time of compilation, a separate .class file will be generatedf for AIC
+	- Inside this we can declare instance variables.
+	- Inside Anonymous inner class, “this” always refers to current anonymous inner class object but not to outer object
+	-  refer this doc for complete understanding https://www.geeksforgeeks.org/anonymous-inner-class-java/
+	
+- Enumeration
+	- Enumeration is for legacy classes(Vector, Hashtable) only. Hence it is not a universal iterator.
+	- Remove operations can’t be performed using Enumeration.
+	- Only forward direction iterating is possible.
+	- its an interface whihc has only 2 methods hasMoreElement and nextElement; 
+	
+- Iterator
+	- Only forward direction iterating is possible.
+	- Replacement and addition of new element is not supported by Iterator.
+	- interface with 3 methods hasNext and next are two non sttaic method and remove is default method;
+	- It is a universal iterator as we can apply it to any Collection object
+	
+- ListIterator
+	-  It is the most powerful iterator but it is only applicable for List implemented classes, so it is not a universal iterator
+	- only used for list collection
+	- contain additonal methods and extend iterator interface.
+	- additonal methods are -> set,add,previous,previousIndex,hasPrevious,nextIndex
+	
+- Initially any iterator reference will point to the index just before the index of first element in a collection.
+- We don’t create objects of Enumeration, Iterator, ListIterator because they are interfaces. We use methods like elements(), iterator(), listIterator() to create objects. These 	methods have anonymous Inner classes that extends respective interfaces and return this class object.
+
+-Enums
+	- use to form groups of constant
+	- used when u wnat to create your own data type
+	- the member inside enum are by default public static final
+	- we can have variables, methods and constructors in it 
+	- can be used to implement a interface but cannot extend class as all enums implicitly extend java.lang.Enum class
+	- Enum declaration can be done outside a Class or inside a Class but not inside a Method
+	- First line inside enum should be list of constants and then other things like methods, variables and constructor.
+	- internally enum get converted into class 
+	- We can declare main() method inside enum. Hence we can invoke enum directly from the Command Prompt.
+	- Every enum constant represents an object of type enum.
+	- enum type can be passed as an argument to switch statement
+	- 3 methods provides by enum
+		- values() method can be used to return all values present inside enum.(this method is actually comes from jvm/complier)
+		- ordinal() method, each enum constant index can be found, just like array index.
+		- valueOf() method returns the enum constant of the specified string value, if exists
+	- enum can contain constructor and it is executed separately for each enum constant at the time of enum class loading bt we cannot create objects explicity for enum.and hence we can’t invoke enum constructor directly.
+	- enum can contain both concrete methods and abstract methods. If an enum class has an abstract method, then each instance of the enum class must implement it
+	
+Relationship(between classes)
+	-why we keep relnship bw classes
+		- code reusability
+		- cost cutting 
+		- Reduce Redundancy ( remove unncessary or same code)
+	- Types of reln
+		-Inheritance(IS-A)
+			- code reusabilty
+			- make classes tighly coupled(disadv)
+		-Association(Has-A)
+			- like variable is associated with clss ( studnet has-a name)
+			- creating object of one class in other class.(new keyword)
+			- classes not tighly coupled in this.
+			-types of ass.
+				- Aggregagtion
+					- weak bonding ( both classes can mutually exist) ( example car has-a music player)
+				- composition
+					- strong bonding ( no use of classes without each other) (example car has-a engine)
+					
+-Annotations
+	- used by @ operartor
+	- genrally used in java to avoid runtime error .
+	- annotation can be used on class,methods and variables.
+	- common annotation override,deprocated,suppresedWarning,FunctionalInterface etc.
+	- you can also create custom annotations by using @interface <annotation_name>{}
+	- types of annoation
+		- Market annotation -> if declared annoation doesnt have any fields
+		- Single value annotation ->  if declared annoation have only 1 field
+		- Multi value annotation ->  if declared annoation have more than 1 field.
+	example
+	@Target()
+	@Retention()
+ 	@interface CUSTOM_annotation
+	   { 
+	   String a1() default "x"; // default is optional
+	   int a2() default 0;
+	   }
+	   
+	   @CUSTOM_annotation(a1="annot",a2=11)
+	   class TestAnnotation{}
+	  
+	 - The target annoation we have used is mandaroty to define the level in which annotation will work like class,method or variable ( ElementType.Method ,.TYpe( for class),.Field)
+	 - The retention annot is also mandtory and it tell till which point it should be considerd ( RetentionPolicy.runtime etc)
+	 
+	 - in main method we have to use annotation like this
+		main 
+		{
+		TestAnnotation t1 = new TestAnnotation;
+		Class c = t1.getClass;
+		Annotatin a=c.getAnnotation(CUSTOM_annotation.class);
+		CUSTOM_annotation c1= (CUSTOM_annotation)a;
+		}
+		now using c1 you can get all the fileds of annotation.
+
+- IO Streams / File Handling / File IO
+	- java.io (package)
+	- input stream /  reader is used for reading the data from file/console to java appliction
+	- outputStream / writer is used for writing the data from   java appliction to file/console
+	- for binray data type we have i/pStream and outputStream
+	- for char data we have reader and writer.
+
+	- Input stream subclass                - output Stream Subclass
+		-fileIS								 - FileOS(data stored in bytes)
+		-ByteArrayIS						 - ByteArrayOS
+		-FilterIS							 - filerOS
+			-DataIS							 	-DataOS
+			-BufferedIS							-BufferedOS
+												-PrintStream(Store data as itis)
+		-ObjectIS							-ObjectOS
+		-PipedIS							-PipedOS
+		-StringBufferIS
+		-SequentialIS
+		
+- Class loader
+	- class loader are contained in jre and it loads the class into memmroy dynamically when jvm request it.
+	- 3 class loader is present 
+		- Bootstrap	(1st proirity,parent)
+		- Extension ( 2nd priority, sub class)
+		- Ssystem/application ( last, child)
+	
+	- the request for class first goes to 1st then delegates to 2nd then comes to 3rd, the order of loading class request is recived in oppsite direction).
+	- class loaded by parent is visible to child but not vice versa
+	- all the class loaded should be unqiue and class loaded by parent is not loaded by subclass.
+	- all the loaders are class itself.
+	- the bootstrap loader is the parent and is written in native code ( may differ in diff jvm) is loaded initially(rt.jar in lib directory) and responsible for loading other class loaders.
+	
+- volatile
+	- used only for variables
+	- substitution for syncornization
+	- it ensure the volatile variable value will always read from main memory
+	- any updation of value will be updtaed instaneously back to main memory.
+	
+- TRANSIENT
+	- used only for variables(instance , final and static not allowed)
+	- it prevent the variable to get serialized.
+	- during deseriliaztion they are intialized with default value.
+	
+- Collections and collection	
+	- Collection is a an interface which extend iterable and most collcetions are derived using this ( ex -> list set )
+	- Collections is an class/utility which provide extra function which can be used for Collection objects ( like sort,min,max,reverse)
+	- Hashmap is derived using collections class.
+	- all the methods in collections class are static ( no object is required)
+	
+
+-----------------
+Collection and their imlementation
+
+1. Arraylist
+	- it implements List interface
+	- it actually declare a object array with intial size 10
+	- whenever u add new element and size is full and new arry is created with new size and all the data is copied using Array.copyof();
+	- during updation of list, new array is created and shifting is done
+	- not desirable if updation is frequent
+	- optimal for fetching of data.
+	
+1 copyOnwriteArrayList
+	- Thread safe version of Arralist(concurrent version not synchronizedlist version).
+	- for evry update operation new clone is created of the list and later sync with original by jvm
+	- perf overhead if more write oprn
+	- prefred when more R oprn and less write oprn.
+	- fail-safe
+	- iterator for copyOnwriteArrayList cannot perf remove oprn
+	- 2 methods ( boolean addifabsent(object o) help to avoid duplicate , int addAllifAbsent(Collection c) add only that object from c which is not present in current list.
+	
+2. LinkedList
+	- It doesnt contain aaray it add memory dynamically
+	- singly and doubly linked list differs only with one refernce node extra in DLL for prev node
+	- Doubly linked is prefered when there are freq deletion opertion.
+	- In LL implementation one static vairable will also be there which will point the first node so the LL dont get lost in memory.
+	- LL should be used when data insertion/deletion is frequent then access.
+
+	
+3. HashMap
+	- Store value based on key value pair
+	- The bukcets are created on the basis of hashcode value of the "KEY".
+	- all the key with same hascode reside in same bukcet using LL ( from java 8 as tree).
+	- the equals,hashcode and toString method of object class should be overriden to use hashmap properly.(it will be overriden in the class whoses object will be stored in HM)
+	- The hashcode function distibutes the key in buckets, so its most important. if all key goes on one bucket it becomes LL and if all goes on diff it becomes arraylist.
+	- It contain 3 main functions 
+		- values -> it return all the values of the map          ( Collection<T> temp = map_name.values();)
+		- keySet -> it return the set for all the keys in a map  ( Set<T> temp = map_name.keySet();)
+		- entrySet -> it retuns entry all the entries of the map ( Set<Map.Entry<T,K>> temp = map_name.entrySet();)
+	
+4. TreeMap
+	- designed to work as RB tree
+	- elements are sorted becuz internal BST is used
+	- the object stored in treeMap either implement comparable or pass compartor for sorting.(comparator given prefernce if both present)
+	- try to implement yourself
+	
+5. Set
+	- no duplicate values are allowed
+	- add fuction doesnt return error if element already exist(it returns boolean)
+	a. hashset
+		- unordered, not sorted
+		- the key value passed by the user is compared using equals method.
+		- can contain hetrogneous elem
+	b. treeset
+		- ordered,sorted
+		- internally implement treemap.
+		-headset fucntion(exclusive of number given),tailset function(inclusive of number given) and subset(exclusive,inclusive) is internally implemeted
+	c.LinkedHashset
+		- orderderd,not sorted
+		- extends hashset
+		
+5. CopyOnwriteArraySet
+	- impleneted on CopyOnwriteArraySet.
+	- exactly same use case as CopyOnwriteArraySet vs set.
+
+		
+6. QUEUE
+	- implemented in fifo
+	- queue specific funtion pool and remove are same( remove head element and return value) only diff if queue is null pool return null remove gices exception
+	- just like pool and remove there is peek and element function(doesnt remove element) same diff like above peek return null element gives exception
+	- offer method is used to add element
+	- in java it comes in following imlementation
+		a.priority queue 
+			- sorts the data or you can specify ur priorty also.
+			- order is not preserved
+			- duplicates not allowed.
+			- null insertion not allowed.
+		b. linked list implementation -> follows fifo
+		c. deque ( double ended queue)
+		
+*- why we need concurrent collection
+	- in tradtional collection most of the collection are not thread safe
+	- the one which are thread safe like ( vector,hashtable,synchronizedlist etc) have perf issue as one thread lock the complete collection.
+	- concurrentmodification exception is major issue(occur when one thread itertaor access collection and other thread try to access)
+	- multithreaded system.
+	
+7. HashTable
+	- thread safe
+	- null key and values not required
+	
+7. Concurrent hashmap
+	- implement concurentmap I which implement Map I
+	- Thread safe
+	- diffrent from hashtable(thread safe) in way as HT lock whole table but CHM locks only bucket/concurrency levels.(perfom wise btter)
+	- null is not allowed in value and key
+	- adds 3 new methods 
+		-putifabsent(k,v) ( add key only if not present unlike hashmap which replace exisitng key with new one)
+		-remove(k,v) ( exsiting remove take only key, this new remove based on key value match)
+		-replace(k,ov,nv) (if key and oldvalue(ov) matches replace with newvalue(nv))
+		
+	- multiple thread updation is allowed in safe manner ( syncronisedMap and Hashtable dont allow)
+	- fail-safe(syncronisedMap and Hashtable are not fail safe)
+	- better perf becz multiple threads are allowed.
+	
+
+- Vectors are just used now for backward code compatibility.
+
+
+- Blocking QUEUE
+	- its a interfacea nd extends queue and have many exisitng implemnattion like arrayblockingQueue
+	- it supports wait operation for retriving removing and adding of element in queue
+	- cant add null value is this
+	- BQ are thread safe.
+	- use put and take function for taking and putting value from queue
+	
+-SynchronousQueue
+	- used just as blocking queue but the size will be one only.
+	- used for handinf off the values.
+-----------------
+	
+- Lambda Expression
+	- enables functional programming ( no need object)
+	- readble and concise code
+	- elimante boiler plate code
+	- enables support for parallel processing.
+	- enables to write/use clean api and libraires
+	- lambda can be wriiten for only that interfaces which have 1 method.
+	
+- Method reference
+	- can be used in place of lambda expression.
+	- when youre calling a function without any parameter.
+	- classname::methodname;
+	
+	for example
+	  public class test
+	  {
+	  public static void dummyMethod() {sout("test"};}
+	  public static void main(String args[])
+	  {
+	  Thread t = new Thread (test::dummyMethod) // method ref.
+	  Thread t1 = new Thread( ()->dummyMethod) // lambda expression.
+	  }
+	   }
+	   
+- Streams
+	- enables functional programming
+	- A stream consist of source oprn then single/multiple intermdeiate oprn then a terminal oprn
+	- Streams can be created for collections or int,double,lines of file
+	- parallel streams are just like streams only faster as it supports multi threading.* the data may not be orderderd *
+	- so basically the source will be the data provider ( mentioned above), and then we can apply series of oprn on that
+	- intermediate oprn -> map,sorted,filter (etc) (order matters)
+	- terminal oprn -> foreach,reduce,collect.
+	- You can create stream using aaray.stream() or Stream.of()
+	- the array.stream work only for primitive data type i.e int double long.
+	- practice more for confidence.
+	
+
+- Clock Api (package introduced in java 8)
+	- Clock clock = Clock.systemDefaultZone();
+	- use can use this clock object to access many methods like millis,instant etc
+	- Timezone are represeted by ZoneID
+	- LocalTime is time without timezone
+	-LocalDate,LocalDateTime
+	
+------------
+JDBC
+	- used to connect to database
+	- download the driver of the respective database vendor you will use
+	- steps
+	- register and load the diver (class.forName("driver class")).
+	- Create connection(connection is interface) ( Connection c = DriverManager.getConnection(url,username,pwd)
+	- create statement (prepare for updation) ( prepareStatmenet ps =con.PrepareStatement(query)
+	-execute the query i.e statment ( Resultset rs= ps.executequery(ps) for update ps.executeUpdate)
+	-iterate through result set ( note the intial pointer will not be at first data it will be above run rs.next() for moving it to 1st record)
+	- close the connection.
+
+----------
+Threads
+	- prallel processing
+	- share heap areas but have seprate stack
+	- 3 ways to create threads
+		a. Extend Thread class
+		b. Implement Runnable interface
+		*c. Implement Callable interface ( dont create a thread) ( cannot create thread directly)
+	- the run method will not create a new thread it will run the run method in current thread. the start method will create a new thread and then run the run method.
+	- Start function cannot be called twice but we can call run multiple times.
+	- Runnable interface doesnt provide start method. so when creating a new thread using runnable interface you have to pass runnable object to thread and then call start mthod.
+		Runnable interface is functional interface so you can use lambda expression also;
+	- Join method will pause main method for further processing till the threads doint reach that point.
+	  for example if t1 and t2 are 2 threads doing their work( running code on run method) and main method also contniue executing code but u dont want that. so the code which u want to run only after when t1 and t2 are completed. you write t1.join and t2.join before that.
+	- isAlive method is used to check whether the current thread is alive or not.
+	- wait and  notify are use to stop and start treads (thread communication) ( they belong to object class)
+	- for using wait anf notify u should keep the method synchronised.
+	
+	- Executor Service
+		-  Executors are capable of running asynchronous tasks and typically manage a pool of threads, so we don't have to create new threads manually
+		- Executors have to be stopped explicitly - otherwise they keep listening for new tasks.
+		- example :- ExecutorService executor = Executors.newSingleThreadExecutor();
+			         executor.submit(() -> {
+											String threadName = Thread.currentThread().getName();
+											System.out.println("Hello " + threadName);
+											}	);
+		- Shutdown and shutdown now are 2 function used to close exectuor servcie. for more details read here https://stackoverflow.com/questions/11520189/difference-between-shutdown-and-shutdownnow-of-executor-service
+		- there is one function executor_service.awaitTermination which accept how much time it should wait before close the service explicitly
+		
+	- Callable
+		- can be passed to executorservice like runnable, but since callable returns a value and executor service dont, we have to use a new fetaure know as future.The callable sumbit will return a future and when the task is completed the value return by callable can be retreived from future.
+	- after submitting the callable to executorService we can take the value in future
+	- imp methods of future
+		-isDone() will check if the callable has done and future has its value.
+		-get() will get the value,it will stop the execution till future gets its value. you can also pass a time to this function so that it dont wait infinetly.
+	- We can pass list of callables also to the executorservice and can get a list of future. You can use invokeall and ivokeany function for calling callables.
+	
+	- JUst like executor we have SechduledExectuor which offer 2 more method to control your execution with regular delays.
+	
+	-Synchronised keyword used for synch can be sed in method level or block level.
+	
+	-Locks
+		- Reentrant locks -> provide fucntion lock,tryLock  for locking and unlock for unlocking
+						-> provide other useful func isLocked,isHeldByCurrentThread etc.
+		
+		- ReadWriteLock -> can be used for improve performance if you have diffrent read write access.
+						-> multple threads can have read lock but cannot have multiple write locks.
+						-> ReadWriteLock ls = new ReentrantReadWriteLock();
+						  ls.readLock().lock() , ls.writeLock().lock(); same for unlock
+						  
+		-Sempahores    -> can allow certian now of threads to execute.
+							Semaphore s = new Semaphore(5) // gives 5 locks at atime
+							s.tryAcuire();s.release()  to give and relase lock
+		
+	
+ 

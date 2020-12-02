@@ -1,0 +1,47 @@
+1. Heap
+	- Heap is complete binary tree with 2 variation i.e maxHeap and minHeap
+	- The constraint is the root should be always greater/smaller than both the child.
+	- Heap was imagined as tree but the staore is in array/list.
+	- Diffrent Nodes from current nodes can be onbatined by
+			- Parent of Current -> (Current_pos-1)/2;
+			- Left child 		-> current_pos *2;
+			- Right Childe  	-> curremt_post*2 +1;
+			
+	- The heart of Heap is heapify function.
+	- Insertion in heap -> to insert any elemnt in heap we insert it at last to main complete binary constainrnt, and them we check its parents is maintating the heap property(min/max)
+							or not and then we bubble up till root.
+	- Deletion in Heap 
+		- just remove the node and replace it with last node and do heapify on that node.(this will work if you want to delete any node).
+	- Pritorty use min/max heap .
+	
+2. Dynamic Programming ( not a ds but a algo solving pradigm)
+	- genrally used to solve optimization / combinatrocal que 
+		ex -> min max , no of ways etc.
+	- steps to solve a dp que ( not genralized)
+		- 1. find the objective funvtion :- what u want to do
+				ex:- f(i) :- is the no of ways you can reach state i; (it can be mutli variable also)
+		- 2. find base cases ( cases for which u already know thw ans)
+		- 3. find the recuurnce relation :- ( the most tricky and 90% of the que )
+		- 4. find the order of execution ( i.e bottom up or top/down)
+		- 5. where will be your final answer stored. ( if using a aaray to solve the ans ot temp variable)
+		
+3. Graph -> how to prepare sequentially
+	- its a type of non-linear DS.
+	- A graph is represented by Sets of Nodes(vertices) and edges.
+	- A edge can be uni/bi directional.
+	- All the trees are grapghs but not reverse.
+		
+	- learn how to build/implement a graph.
+	- Learn how to traverse it ( BFS,DFS)
+	- Learn to find whether graph is cyclic / acylic ( can be called as tree)
+	- Learn to compute shortest path ( bfs,djistras)
+	- Topological sorting.
+	- Minimum spanning tree ( Prims and kruskals)
+	- Graphs Algo
+		- Bellman ford
+		- floyyd warshal
+		- Travelling salesman
+		- graph coloring
+		- snack and ladeer
+		- flodd fill
+		

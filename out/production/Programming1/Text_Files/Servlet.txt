@@ -1,0 +1,98 @@
+- Servlet is used for providing/handling dynamic web-pages functionalities
+- When a client (any browser ) send a request for a resource ( a page or anything) it reaches the server ( web server / app server ex- tomcat/glassfsh etc) it process that request and sent the response to client.
+- in the webserver the server first checks whether its a static page or dynamic page
+	- if static page it driectly sends it to cilent
+	- if its dymanic page,means its not avialble directly, we have to create it using servlt
+	- servlt containers are used for that(web container)
+	
+- the process 1st goes to web.xml where it finds the servlet mapping for current request.
+	- in the web.xml all the servlets are defined
+	- a servlet has 2 tags
+		- servlet and servlet mapping
+			- example
+					<web-app>
+					<servlet>
+						<servlet-name>
+						<servlet-class>
+					</servlet>
+					<servlet-mapping>
+						<servlet-name>
+						<url-pattern>
+					</servlet-mapping>
+					</web-app>
+
+- the servlet name should be same i.e for a servlet u will define the class-name which will handle the request and create the response and the url-pattern for which this servlet will be called ( ex -> /*abc.htm)
+- In servlet 3.0 web.xml can be ommited and mappings can be done directly on class with the help of annotations.
+
+
+HOW TO CREATE A WEB_APP USING SERVLET ( for ref follow the proejct im creating)
+
+- 1st a web.xml will be nedded to redirect all the request to it corresponding servlet.
+	- in web.xml you can have one tag i.e welcome-file-list inside which u can have multiple tags welcome-file which will be called on startup or homepage based on their availbilty.
+	
+- Let say you have created index.html as your welcome-list.
+- You have to create a form in that html which will be submitted
+- the name of the form will act as url-pattern
+- then you have to create entry in web.xml for that servlet. refer above how to enter detail. class-name should be fully quailified i.e it should contain package name. url pattern should start with /.
+- create the class with same name you have used in web.xml and you have to extend anyone of the Interface(abstract class)
+	-HttpServlet
+	-GenericServlet.
+	
+- for genericservlet you have to implement dervice method.
+- for Httpservlet its not nesscary it will be called indirectly.
+- now the function created will be using 2 objects throughout i.e HttpServletRequest , HttpServletResponse 
+- you can get the parameter values using req and you can write the objects using res ( printWriter = res.getWriter() -> use for prinitng in webpage.)
+
+- this is the basic , you can algo delagte the req from one servlet to another or you can call another servlet from one servlet also.
+- RequestDispatcher = req.getRequestDispacther("<servlet_url_pattern or servlet_form_name>")
+- Generally request dispatcher is used when we use single webpage or diff web page on same website. it will be handle internally.(we use same req and resp)
+- sendRedirect will be used when you want to redriect to another webpage
+	- since sendredirect dont accept any paramter other than servlet name, we can send data in 3 ways.
+		- session management -> set the data in session of req object  ( its provided by tomcat) and then get the data in other servlet using session object.
+		- cookies -> create coookie and set data and then using same cookie name access data.
+		- urlTransfer -> in parameter to sendredirect pass the full url with data.
+		
+- for setting intial value for the servlets we have 2 options 
+	-servletconfig
+	-servletcontext
+- both are interfaces and used to set intial values for servlet.
+-servletcontext is shared and used by all servlets whereas servletconfig is for indivdual servlet.
+- for servletconntext a tag <ontext-param> must be used for setting value. and inside it use <param-value> and <param-name> should be defined outside any servlet
+- for servConfig <init-param>  tag is used with same internal tag as above. it should be defined inised servlt(inised servlet not servlt maapping).
+
+- the web.xml can be properly deleted and all the code refernce inside web.xml can be replaced as annotations.
+
+
+
+- if we want to change the page properties using servlet we have to send all the html code inside printwriter object.
+  to eilimiate this JSP has been introduced.
+  
+--Now in JSP we write code inside html code.
+-- Jsp code internally get converted to servlet
+-- response request cookie session all objects are present implicitly.
+
+--JSP has 4 tags
+
+	1. <% %> -> scriplet -> all the code inside this goes inside service method of servlet ( internally when converted) , even if u declare multiple time it will still goes there
+	
+	2. <%! %> -> declaration -> all the code which u want oustide the service method can be wrriten here, like local variable , method etc.
+	
+	3. <%@ page import="pkg_name,pkg_name" %> -> directive -> all import will come here (extra imports)
+	
+	4. <%= vairableName %> -> expression -> all the print statement can be replace by this. will print in page not in console.
+	
+	5. <%-- --%>  -> comment tag -> use for comments 
+
+
+- the directive tag is again divide in 3 parts
+		1. @page -> it will add this func for all page
+					- import="importname"
+					-session="true/false"
+					-extends="classname" etc
+					
+		2. @inlude -> include other jsp file
+		             - file = "x.jsp".
+					 
+		3. @taglib -> if u want to use external tags
+					- uri="" prefix=""
+

@@ -1,0 +1,23 @@
+regex
+
+Flags
+
+1. g -> global
+2. i-> case insenstive
+3 m -> multiline -> treat a new line as new input
+
+special char
+
+1. + -> one or more
+2. ? -> optional if present match not present ok only one char ( if ea? and text -> ppap epp eap, it will match  e and ea both)
+3. * -> 0 or more
+3. {x,y} -> specify range for the matches (can be single paramter also)
+3. *? -> find smallest match (stop at first match)
+4. . -> match anything excludes newline
+5. {} -> define ranges of min to max math requires ( if ea{2,3} and text -> ppap epp eaap ea eaaa eaaaa , it will match  eaa and eaaaa only) as a needed 2 or 3 times)
+6 () -> for grouping ( use can use | inside for or operator func)
+7  ^ 
+	-> used to specify start of pattern
+	-> if used inside bracket act as negation
+8. \b -> word boundary ( example if regex -> \\bin\\b and text -> learning in scholl o/p -> only in
+								 if regex -> in and  text -> learning in scholl o/p -> only learning in
