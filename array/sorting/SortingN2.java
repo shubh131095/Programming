@@ -1,4 +1,4 @@
-package array;
+package array.sorting;
 // this class will handle the 3 quadratic time sorting tech.
 
 // Bubble -> compare pair of index and swap if necessadry. in this at every pass the last element in array will be the biggest and so on. In this Technique right part remain sorted and left part remains unsorted.

@@ -101,7 +101,7 @@ class Graph<T>
     return sb.toString();
   }
 }
-public class GraphImpl
+public class GraphImplNonWeighted
 {
   public static void main( String[] args )
   {

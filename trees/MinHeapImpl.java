@@ -50,7 +50,7 @@ class MinHeap
 
   // function to heapify
 
-  private void heapify(int pos)
+  public void heapify(int pos)
   {
     // if non leaf node , or current node value is greater than left or right child,then only heppify required.
     if(!isLeaf( pos ))
@@ -125,9 +125,15 @@ class MinHeap
                         + " , Current Node Right Child :-" + list.get( getRightChild( i ) ));
     }
   }
+
 }
 public class MinHeapImpl
 {
+  public MinHeap minHeap;
+  public MinHeapImpl()
+  {
+    minHeap = new MinHeap();
+  }
   public static void main( String[] args )
   {
 
