@@ -4,7 +4,7 @@ public class Atoi
 {
   public static void main( String[] args )
   {
-    String s = "123aa";
+    String s = "123";
     String s2 = "123a";
     int number=0;
     int k = s.length();

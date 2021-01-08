@@ -13,7 +13,7 @@ import trees.PreorderTraversal;
 // ie the left side/Right side of middle element will again become same problem
 // print preOrder of tree.
 
-// Extra Node if in place of array a unblanced binary serach tree is given, then also u can apply the same logic.
+// Extra Note:- if in place of array a unblanced binary serach tree is given, then also u can apply the same logic.
 // just get the inorder of the tree and place it in a aaray and then it will become the above problem.
 public class SortedArrayToBST
 {

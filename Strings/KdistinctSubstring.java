@@ -7,7 +7,7 @@ import java.util.List;
 
 import java.util.Map;
 import java.util.Set;
-
+// provided k and a string, find all the substring in string of lenght k with distinct char
 public class KdistinctSubstring
 {
   public static boolean compareSubString(String s)

@@ -39,6 +39,10 @@ Java
 	- comparable are used when u want to sort on natural basis.( if u implement this u can use only filed to sort based on your requirement , rest will be sorted naturally)
 	- Comparator are used when u want to sort diffrenet filed based on your requirment.
 	- For using comprator you can create class of all the fields and implement comparator there, since comparator takes
+	- if for a class you have implemnetd comparable and in sort function( collections.sort()) you have passed comparator also, then comparator will take prefernce.
+	- for comparing on multple fileds( kind of order by) you can use Compartor.comparing().thenComparing(). inside the method you can pass the refence of the fileds in which u want to sort.
+	- for exxample ( Colelctions.sort(list,Comparator.comparing(Class_name::GetterMethodOfFiled).thenComparing(Class_name::GetterMethodOfFiled).
+	- you can do same bu creating do compartor variable and then pass the final variable in sort.
 	
 - JDK JVM JRE
 	
@@ -97,7 +101,7 @@ Java
 	-* if the method signature has only diffrence of static keyword it throws error (not overloading)
 	
 - Static methods can also be overloaded
-- Static methods cannot be overrrided
+- Static methods cannot be overrrided(no complie error but undesired behaviour)
 - overrided methods can be overloaded in subclass.
 	
 - primitive data type values dont accept null values but their wrapper class does
@@ -111,7 +115,7 @@ Java
 	- class -> cannot be inherited ( like string class)
 	
 - final static int means it has to be intilized at that moment
-- final int  - it can be intilized in constructor.but eberu constructor should intilize it.
+- final int  - it can be intilized in constructor.but every constructor should intilize it.
 	
 	
 - Binding -> getting the fucntion body when its called is binding.
@@ -128,8 +132,7 @@ Java
 	- we can now define function in interface using default/static	
 	- it is done so that ading new functions in exisiting interfaces will not give error to classes who is implementing the same Interface.
 	- by giving above functinality one ambiquity(diamond problem) which come de to multple inhertinace occurs.
-		- example:- A has show(), B has show() and C implement A and B, now since defination can also present of show in A&B it will give error, to solve this you have to implementation
-			show() in C also.
+		- example:- A has show(), B has show() and C implement A and B, now since defination can also present of show in A&B it will give error, to solve this you have to implement show() in C also.
 		- example, take above example only now you have one more class D which extends C and implement A. now you have show() in both C and A.so now what will happen.
 			no error will come, the show method of C will be called from D becz class has more priority then interface.
 	- you cannot override object class method in interface(exact signature)
@@ -382,7 +385,66 @@ Relationship(between classes)
 	- but if we add final with transiet then it save the default value like static or static transient.
 	- for more go to this link https://javabeginnerstutorial.com/core-java-tutorial/transient-vs-static-variable-java/
 	
-
+- Garbage Collector(https://stackify.com/what-is-java-garbage-collection/#:~:text=A%20Definition%20of%20Java%20Garbage,Machine%2C%20or%20JVM%20for%20short.&text=The%20garbage%20collector%20finds%20these,them%20to%20free%20up%20memory.)
+	- Its implemented by all jvm internally(all jvm can have their own iplemntation)
+	- It cleans up unused/not required objects to free up mem in heap area.
+	- Steps followed
+		- unrefernced object are marked and ready for collection
+		- marked object are removed
+		- compaction is done( the alive objects are brought thogther)
+		
+	Heap Area
+	- Young genration ( newly created object)
+		- eden space ( newly created)
+		- 2 surviour space ( who survvied one gc cycle)
+	- old genration
+		- old objects
+	- permananet genration
+		- metadta of class and methods.
+	
+	- Types of GC
+		- serial :- all event conducted serially using 1 thread. compaction after this
+		- parallel -> multple thread for minor collection ,  major collec and old genration compaction(multiple thread).
+		- concurrent mark sweep(cms) -> just like parrallel, run concurrently so that less stoppage of application,no compaction
+		- G1 -> latest by java 7 as replcament of cms.
+		
+	- Refeernce package to create a object refernce
+		- softRefernce -Garbage collector is required to clear all SoftReference objects when memory runs low.
+		- weakrefer -When garbage collector senses a weakly referenced object, all references to it are cleared and ultimately taken out of memory.
+		- PhantomReference object: Garbage collector would not be able to automatically clean up PhantomReference objects, you would need to clean it up manually by clearing all references to it.
+		
+	- finalize method is in object class and contain null implementation
+	- for every object finalize method are only called once.
+	- finalize are called before gc.
+	
+- Immutable class/Object
+	- immutable class object cannot be changed(state) like string;
+	- for creating immutable class
+		- mark class final
+		- keep all variable final and private
+		- dont have any setter method
+		- dont change state of object in any method.
+		- if any non mutable variable is there ( return a deep clone copy to user)
+		
+	- advt
+		- not synchronization issue.(always thread safe)
+		- ideal for map keys and for set.
+		- refernce of it can be cached as it will never change.
+		
+	
+- Raw Type
+	- when you create object of a class which accepts generic, and you create the object without giving generic refernce then the resultant object is know as raw.
+		for example :-
+							class A<T>
+							{
+							}
+							class B
+							{
+							A a = new A(); // raw
+							A<Integer> a1 = new A<>(); // not raw;
+							}
+	- when you dont pass any argument to generic it accept the generic as Object, i.e you can store any value in it, but you have to Type cast respectively during use.
+	
 -----------------
 Collection and their imlementation
 
@@ -536,16 +598,36 @@ Collection and their imlementation
 	- terminal oprn -> foreach,reduce,collect.
 	- You can create stream using aaray.stream() or Stream.of()
 	- the array.stream work only for primitive data type i.e int double long.
-	- practice more for confidence.
+	- Streams are lazy -> means all the intermediate operation will be excuted only after encountering a terminal opeartion
+		- if you create a stream without any terminal opeartion, the stream will not do anything.
+	- genrally if u have multple intermdeiate oprn, then stream will take one data at a time and perform all operation,if it matches terminal oprn criterio it stops,other wise it does the same with 2nd element. BUT for some opertion this rule doesnt follow ( like sorted).
+	- the primitive type stream ( intStream,double and float) provides some extra terminal oprn like sum,average.
+		- u need to convert regular stream to primitve stream to use that.( using mapToInt() or mapToDouble())
+		- vice versa can also be done a primitive stream can be converted to normal stream by mapToObj().
 	Streams function
 		- filter -> used to filter the current stream. will not change the data , it will allow some input to pass for further processing.
 		- map    -> transform data, here same operation will be applied to all input. but the type of input comming and type of o/p leaving map cannot be guranteed.
 		- reduce ->  it can store result or look into streams of value forits operation.(map / filter cannot do that one data cannot be dependednt on another)
 						ex :- reduce ( intial_value , (last_value,new value) -> doperation_on(last_value,new_value))
+			- o/p of reduce function is always a single value.
+			- is of 3 types
+				- 1. intial value is not nedded and you have 2 parameter. 
+					ex:- .reduce( (e1,e2) -> e1+e2) , here e1 hold last value and e2 holds current stream value.
+				- 2. with intial value as gien above( intial value will be ouptut if stream is empty)
+				-3. take 3 arguments -> used for || stream.
 		- collect -> kind of reduce fuction, you can collect the o/p comming from streams to a list,map,set.
 						- creating a map can be very easy using this, tomap() inside collect can be used.
 							inside tomap() provide what key u need and what value u need.
 						- groupingBy() can be used to group data inside map.(practice to learn more)
+		- peek -> intermediate operation,genrally used for deubbing and logging, used to peek every data of current stream.( you can put peek after every intermdeiate opertion and log out the data to understand how current function modifies the stream)
+			- you can also perform operation on data.
+		- skip(n) -> use to skip first n elements of stream // intermedite
+		- limit(n) -> use to limit the stream data by n. // both
+		- count -> terminal oprn
+		- allMatch -> kind of filter but return if all stream data matches the given condtion.
+		- noMatch and anyMatch -> same like allMatch
+		- min and max -> return min/max element on stream based on comprator provided( otherwise natural odering).
+		
 
 - Clock Api (package introduced in java 8)
 	- Clock clock = Clock.systemDefaultZone();
@@ -578,15 +660,26 @@ Threads
 	- Start function cannot be called twice but we can call run multiple times.
 	- Runnable interface doesnt provide start method. so when creating a new thread using runnable interface you have to pass runnable object to thread and then call start mthod.
 		Runnable interface is functional interface so you can use lambda expression also;
-	- Join method will pause main method for further processing till the threads doint reach that point.
+	- the start method  by default calls run method of no argument, so if u want to override it you can but no argument run will be called first. 
+	- Join method will pause main method for further processing till the threads dont reach that point.
 	  for example if t1 and t2 are 2 threads doing their work( running code on run method) and main method also contniue executing code but u dont want that. so the code which u want to run only after when t1 and t2 are completed. you write t1.join and t2.join before that.
+	- You can aslo pass time in join method, so the main thread will wait the min of time or threadcompletion. i.e if threads doesnt  get completed in stipulated time,it will ignore that join and procedd.
+	- yeild method called by a thread forefit its cpu and let sechuler pick another thread.( the same thread can be picked again based on priority and thread avilability).
 	- isAlive method is used to check whether the current thread is alive or not.
 	- wait and  notify are use to stop and start treads (thread communication) ( they belong to object class)
+	- wait,notify,notifyAll are the methods used for IPC(inter process communication)
 	- for using wait anf notify u should keep the method synchronised.
-	
+	- states of a thread
+		- new/born -> ready -> runnig <-> waiitng/blocked -> dead
+	- A thread priority can have priotiy from 1-10(min-max) only.
+		- Thread.Min_priority(1),THread.Max_proiority(10),Thread.Normal_prioriy(5)
+	- The default priority is always get inherited from the parent thread.
+	- The default priority for only main thread is Normal(5)
 	- Executor Service
 		-  Executors are capable of running asynchronous tasks and typically manage a pool of threads, so we don't have to create new threads manually
 		- Executors have to be stopped explicitly - otherwise they keep listening for new tasks.
+		- Executors can be used to exceute a task using thread(by passing a thread as arugumnt / runnable)
+		- Executors can also be used to submit task to a callable.which will run and then retrn  result
 		- example :- ExecutorService executor = Executors.newSingleThreadExecutor();
 			         executor.submit(() -> {
 											String threadName = Thread.currentThread().getName();
@@ -594,6 +687,9 @@ Threads
 											}	);
 		- Shutdown and shutdown now are 2 function used to close exectuor servcie. for more details read here https://stackoverflow.com/questions/11520189/difference-between-shutdown-and-shutdownnow-of-executor-service
 		- there is one function executor_service.awaitTermination which accept how much time it should wait before close the service explicitly
+		- two ways you can execute threads  using executor	
+			- submit and execute
+			- diffrence is submit return value( callable can also be used) and it hides un-handled excpetions, execute dont return values  and throws un-handle exceptions.
 		
 	- Callable
 		- can be passed to executorservice like runnable, but since callable returns a value and executor service dont, we have to use a new fetaure know as future.The callable sumbit will return a future and when the task is completed the value return by callable can be retreived from future.
@@ -602,10 +698,15 @@ Threads
 		-isDone() will check if the callable has done and future has its value.
 		-get() will get the value,it will stop the execution till future gets its value. you can also pass a time to this function so that it dont wait infinetly.
 	- We can pass list of callables also to the executorservice and can get a list of future. You can use invokeall and ivokeany function for calling callables.
+	- the invokeALL and invokeAny are called on executorservice object and accept list of callable.
+	- it also accept timeout and takes min of timeout or thread execution time.
 	
 	- JUst like executor we have SechduledExectuor which offer 2 more method to control your execution with regular delays.
 	
-	-Synchronised keyword used for synch can be sed in method level or block level.
+	-Synchronised keyword used for synch can be set in method level or block level.
+	- using synch keyword at block level is better as it let otheer threads do all the work which can be run parallelly
+	- You can aslo synchorinze static method , you may ask whats the use of it?
+		- let say you have some static variable that is shared among objects and u need to synchorizee that.
 	
 	-Locks
 		- Reentrant locks -> provide fucntion lock,tryLock  for locking and unlock for unlocking
@@ -619,6 +720,82 @@ Threads
 		-Sempahores    -> can allow certian now of threads to execute.
 							Semaphore s = new Semaphore(5) // gives 5 locks at atime
 							s.tryAcuire();s.release()  to give and relase lock
+							
+- Java 10 features
+	- var keyword
+		- main objective is to remove the unnecssary type dec for a variable, complier will understand himself.
+		- Genrally used for interface or parent type declration.
+		- example :- List<Integer> a = new ArrayList<>();
+						var a = new ArrayList<Integer>(); // both are same
+		- once assigned a type cannot be changed
+		- cant be used in fucntion parameter
+		- always take value of assigne not parent.
+			for ex :- if A and B implement C and u declare var a = new A();  its of type A not C and cant be chnged to B later.
+		- cant be used for lambda expression.
 		
+		
+- Iplement HashMap
+	- to implement your own hash map read this.
+	- before iplemeneting , understand how hashmap works
 	
- 
+	- Working of HashMap
+		- you have container which stores key value pair.
+		- now to keep it simple we will consider example to move forward.
+		- intially when a hashmap is created or intantiated, we give a default size to map.
+		- now the main concern of us is to put the value and get the value in constant time( thats why we are using map)
+		- now lets understand how it actually stores and brings the value
+		- it should be clear ,two same/equal keys cannot be there in hashmap at a current instant.
+		- but two unequal key can have same hashcode.
+		- let start
+		- when we get a object to put, we cal its hashcode and mod it with current hashMap size (simce hashcode can be anything we just want to reach the bucket)
+		- when we reach the respctive bucket we can have following secnarios
+			- no key is present in that bucket -> simply put a key,value in that bucket
+			- if some key is present then
+				- if same key is present replace the value
+				- if diffrent key is present , then we have to check our collision resolution mehtod( chaining or something else)
+					- for chaing we will create a new node of key value and append it to the exisitng node ( for this every bucket will be of linked list type/arraylist)
+					- the front of this bucket can conatin null for key/value and just point to other node or u can start stroing from that your choice.
+			- now for every key,value or node you insert in hashmap you have to increae the size variable ( dont confuse this with the intial bucket size)
+			- this size variable tell us how many diffrent key are present in hash map at current instant(in one bucket or diff). if the total no of keys reaches a loadfactor,
+			create a new map of more size then intiail and copy all the existing key using the put method.(which u have already wrriten)
+			
+		- for getting a key/value what we do is we get the hashcode of key and then get to the respective bucket.
+		- now that bucket can contain many keys or no keys
+			- if no key its not present
+			- if multiple keys, loop through all and find.( same can be done for conatinsKey check).
+
+	- if you have understood till here, you have a basic idea how and what is happening, now there can be 100 ways to implemnet this, but u can choose watever fits u.
+	
+	- always remember
+		- 2 objects can have same hashcode still they can be diffrent
+		- if 2 objects are equal they should have same hashcode
+		
+		
+- variable argument function
+			- in java you use ... to specify you have multple arguments
+			- u can specify type and if it can accept any type then you can specify object
+				EXAMPLE // valid one
+				1. function var( int... integers)
+				2. function var( Object... obj)
+				3. function var( String a , int... integers)
+			- u cannot specify more than 1 var args in one function
+			- the var args should be the last one
+				example // invalid one
+				1. function var( int... integers,string a)
+				2. function var( int... integers, String... a)
+			- the value recived will be an aaray and you can loop through the values
+			- can be overloaded but can cause ambiguity
+			
+			
+- valueOF and ParseInt
+	- both are used to parse value of string into number format.
+	- parseInt takes only String argument and return primtive int type;
+	- valueOf takes integer,character and string and return their respective value ( int and chr -> their ascii)
+	- valueOf perform better than parseInt as its caches the request.
+	
+- valueOf and toString
+	- both convert the given object value into string type
+	-internally valueOF calls toString method only
+	- toString fails for null whereas valueOf has an extra check for null.
+	
+				

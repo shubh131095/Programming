@@ -1,5 +1,7 @@
 package array;
 
+// one more approach apart from curremt implemenetd
+// take a new aaray and one by one fill it using original aaray by getting their final position.
 public class LeftRotateArray
 {
   public static void reverseArray( int[] arr, int i, int j )

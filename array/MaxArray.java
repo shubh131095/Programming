@@ -3,6 +3,10 @@ package array;
 // you have to increase n-1 element in a iteration and you can increment only by one. If all elements are same return 0;
 // example : - 55688
 //   1-> 66789 , 2-> 77889 , 3-> 88999 , 4-> 999 10 10 and so on.
+
+// one variation of this que is in dp
+// in that you can increase any element by 1,2 or 5.
+// and tell min no of moves
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

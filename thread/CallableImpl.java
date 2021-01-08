@@ -21,13 +21,22 @@ public class CallableImpl
           System.out.println("inside callable " + i + Thread.currentThread().getName());
         }
         return i;
-      };
+      }; // calllable is a interface and we are giving anonymous defination to call method(return object)
     exe.submit( c ); // the callable can be declared here also.
     Future<Integer> fut = exe.submit(c);
-    System.out.println("future done?  :- " + fut.isDone());
+   System.out.println("future done?  :- " + fut.isDone());
 
-    Integer value = fut.get(10, TimeUnit.MICROSECONDS); // it blocks the current thread until we get value from future. cannot be interrupted in between
-    System.out.println("future done?  :- " + fut.isDone());
-    System.out.println("future here:- " + value);
+   try
+   {
+     // / it blocks the current thread until we get value from future. cannot be interrupted in between. if we dont get values in given timeout exception will come.
+     Integer value = fut.get( 10, TimeUnit.MICROSECONDS );
+     System.out.println("future done?  :- " + fut.isDone());
+     System.out.println("future here:- " + value);
+   }
+   catch( Exception e_ )
+   {
+     System.out.println("oopss");
+   }
+
   }
 }

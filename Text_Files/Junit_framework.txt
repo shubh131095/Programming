@@ -1,0 +1,67 @@
+JUnit Test Framework
+	- Architecture
+		- the Platform(heart of junit which does all the operation i.e running test and compling result and all)
+		- The Api's
+			- Jupiter ( new api) -> it tells the platform what to running
+			- Vintage -> provided for backward compatibility
+			- Ext 	  -> Custom api created by user if nedded.
+		- The user which write test using any of above apis.
+		
+	- when creating a maven project for using junit u need 2 depedencies
+		- junit-engine
+		- junit-jupiter api
+		
+- writing test
+	-Every java class file will have its respective testfile with naming convetion as classNameTest.
+	- every testfile will have n no of test where n= no of methods.
+	
+- There are diffrent hooks for data intilization
+	- beforeclass(@beforeAll) -> will be run only once for each class of test.(be careful to use this)
+	- beforeTest(@beforeEach) -> will run before every test ( same code in each method can be placed here)
+	- like wise we have afterclass and aftertest -> genrally used for closing/flushing(@afterAll,@afterEach)
+	- since beforeAll and Afterall are called before objet cretion and after object destruction, the methods has to be static to work.
+	- The new instance of the class get created for each test by default, if u want to change this beehaviour u can use testInstance annotation class level and then provide the testinstance lifecycle as classlevel or methodlevel(default)
+	- one intresting fact, if u use intance level as class level,then your method beforeAll needs not to be static as it know it has to run only once so it can run after object creation.
+	
+- Extra Annotations
+	- DisplayName-> by default each test case takes the name of testMethod, to change it we use DisplayName annotation
+	- Disabled	 -> to disable a test from running ( genrally used during dev)
+	- enabledOnOS -> this test will only enabled for specified os
+	- enabledOnJre -> for running on specific java version
+	- enabledIf,enabledSystemProperty,enabledEnvironemtVariable.
+	
+- for skipping a test we have one functionality known as assume.
+- you can write assumeTrue,assumeFalse and pass value to this function before your actuall assertion.
+- if the value passed is equal to our assumption , then only the test will run otherwise it will be skipped.
+	- example:- for running a test u need tomcat to be up, but its currently down and if u run it fails which is a false negative.
+				- to overcome you can asume its up before you run the assert and ifs not up just skip it.(checking whther its up or not is difrent filed).
+				
+- grouping of test can be done using nested annotation.
+	- just create a inner class inside main test class and group all the smiliar test inside that.
+
+- for repeating a test case to run multiple times
+	- instaead of using test use repeated test annotation and provide the no of repeations as paramter.
+	
+- tag annotation can be used to tag diffrent test, so you can run only specified test with specified tags when needed.
+- Tags annotation can be used to created multple tag for single test, provided array of tags as parameter
+
+- TestInfo and TestReporter are 2 interface provided, which you can use.
+	- testinfo give info of test like name tags
+	- testreporter logs info provided to them.
+- they both are interface but you can use the implementation directly.
+
+
+Diffrenet Testing Secenarios
+- How to design test for a abstarct class.( interface covered by this only)
+	- 2 ways
+		- create a dummy implementation of that class inside the test class and then use object of that dummy implementation to test the non abstracted method.( dis-> needs to create a dummy implemnantation for all the abstarct class providing a dummy/incorrect def to the abstract method)
+		
+		- using mockito
+			- create a instance of mockito, when craete a dummy implem for you of the abstract class.
+				example :- @Test
+								public void givenNonAbstractMethod_whenMockitoMock_testCorrectBehaviour() {
+											AbstractIndependent absCls = Mockito.mock(
+											AbstractIndependent.class, 
+											Mockito.CALLS_REAL_METHODS);
+											assertEquals("DEFAULT-1", absCls.defaultImpl());
+																										  }

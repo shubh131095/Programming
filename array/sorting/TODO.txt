@@ -1,0 +1,5 @@
+quicksort
+raddix sort
+bucket sort
+
+-mergesort on linkedlist

@@ -1,0 +1,40 @@
+<!-- In this document we will list some of the common dp pblm wih thier various approach -->
+
+1. Egg_drop problem
+	- You have n eggs and K floors, you have to tell the min number of tries needed to find the floor from where egg start breaking when dropped off.
+		- Brute force :- try each floor from up/down and note from where it start breaking/stop breaking. 
+		
+		- Blocks :- Try forming blocks and start from block starting , if egg breaks try for every floor in that block, if it doesnt go to above block
+			- let say you have 10 floor and you have selected block of size 3, then you have 4 blocks ( 1-3,3-6,6-9,10)
+			- start from block 1 i.e 3, if eggs break check for all other floor of same block other wise try 2nd block i.e 6. bttr than previous.
+			- how to find block size, we have N/B blocks and B blocks in the range(blocks where egg break)
+			- diffentiate and u well get B = root(n).
+			
+		-DP solution
+			-F(k,n) -> min( max( f(k-x,n) , f(x-1,n-1)))+1  where min(x) -> 0 to n-1
+			-let say x is a random floor from where u drop an egg.
+				- now it can break means you have 1 less egg now and u repeat from below floor.
+				- if it doesnt break,you are left with k-x floors and all the egs.
+				- +1 because of the current try your doing.
+				- and we have to take max of this.
+			- base case 
+				-F(k,1) -> k ( u need n tries)
+				-f(1,e) -> 1  ( 1 floor required 1 try only)
+				
+
+2. Knap sack
+	- it has 3 variations
+	-1. 0-1 ( item can be picked completely or not)
+	-2. fractional( any amount of any item can be taken -> easiest)
+	-3. unbounded( any item can be taken any no of time)
+	- the fractional one doesnt need dp and can be solved directly.
+	- 0-1
+		- here we can take any item or leave it
+		- we will be given Wt[] prize[] ,size,totalWeight.( wt -> respective item weigth,prize[]-> value of resp item, size -> size of aaray,weight-> total sack weight).
+		- maximize profit.
+		- you can write recusrrive solution but that will not be efficient.
+		- top down will be efficient or recursiion with memoisation
+			1. bottom-up/recursive :- for any index you can either take that or leave that.
+				- only thing that change is size of aaray(item processed) and weight of sack
+				- create a dp[][] which depend on weight and size. and store for every value.
+				

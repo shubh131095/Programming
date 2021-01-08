@@ -1,0 +1,137 @@
+Postgres
+
+1. Date data type only store date not timsestamp
+2. for timestamp default store format is stored in datestyle variable, you can set that.
+	example :- set datestyle -> "ISO,DMY" .
+3. substr function in pg take 3 parameter :- name of field,starting ,ending both included.
+	example :- substr(name,1,3) -> get first 3 char
+4 position funcion takes pattern and string and return the index of starting posiition of that pattern , its case senstitive;
+		example :-  position('a' in 'here is game') return index of a,start with 1;
+		
+5 trim function to trim spaces
+	- ltrim -> left side
+	- rtrim -> right side
+	- btrim -> both side
+	- trim function ( both|leading|trailing "<chartoTrim>" from <string>)
+
+--- create table
+	- same as other sql standard
+	- create table <table_NAME> ( CONFIGURATION)
+	- Data types
+		- Numbers
+			- bigint,smalint,intger ( diffrenet capacity)
+			- serial,smallserial,bigserial( auto incremnet diff capacity) -> create a seqeuence for this(pg does it)
+			- decimal numeric float ( for decimal)
+			- for numeric you can specify precison ( total digit) and scale(total decimal).
+		- Character
+			- char(n) -> fixed lenght
+			- varchar(n) -> variable length
+			- text -> unlimited length
+		- Time
+			- Timestamp -> store data with time.
+			- date      -> no time only date.
+		- Enum -> create your own type
+		- Array -> you can create array of types
+		
+--- Alter Table
+	- Alter table <table_Name> [Action]
+		- Actions
+			- ADD ( column,index,constarint) ex -> add column_name dataType constaint;
+			- Drop ( column,index,constarint) 
+			- alter ( chnage existing colmn)
+			- modify ( chnage existing colmn)
+			- rename ( table,column etc)
+			- Set Schema/tablespace.
+			
+6. Null_if(1,2)
+	- it return 1 if both are diff and will return null if both are same.
+7. coalesce(1,2...n) -> you can pass n argument in coalesce and it return the first not null value.
+
+- with clause.
+	- use of with clause is when u have many levels of subquery,you can convert them into individual with and then use them in main query.
+	- it makes complex and big query more readble and u can use as many times in single query as u want.
+	
+	- Recurssive version
+		- you need to define a base case then the recusrive query using union/union All with base case.
+	
+- in postgres if ur string contain ' or \ char then u can escape that by using ' or \ twice.
+	example :- select * from s where name = ' name''name'; // basically (name'name)
+- Or you can use dollar sign to escape ' and \.
+	example $$<any_string>$$ no need to add any escape char now, this is why we use this in pl/pgsql
+	
+- Structure of PLsql
+	do $$
+	<first_block>
+	declare
+	<declration>
+	begin
+		<body>
+	end <block_name>$$;
+	
+	- the plsql can contain multple blocks.
+	- every sattement is ended with ;
+	- in declrartion you give  <name> <type> := <value> ( you can use = instead of := also)(if no value is given then NULL is assigned)
+	- $$ is used for escaping. 
+	- same structure is used for procedure/function creation.(almost)
+	- you can declare the type using any table_column type or exsiting variable type also
+		- variable_name table_name.column_name%type ; // same for variable
+	- the main focus is %type;
+- a block can be nested in begin. and if same variable exist in outer and inner, then you have to use outer.variable_name to access outer variable;
+- to assign the output of a query to a vriable, you will use into with select.( to ake it easy, just write normal query with all column used in select with alias name,where you will use into instead of as and the alias name should be a vriable name declare above;
+- to assign a complete row value into  a varaible use %rowtype just like type;
+	- variable_name tablename or viewName%rowtype;
+	example :- select * from actor into variable ;
+	- now variable will hold all row. and you can acces columns using variable.<column_name>.
+	- if your output contain more than 1 row, it will hold only the first row;
+	
+- the alternative to rowtype is record.
+	- its works just like row_value, only diff it doesnt have any predefined structure so you can use it to store any tabe values
+	- it also store only 1 row.
+	- accessing is same;
+	
+- when using rowtype, the struture get fixed so you have to use same order as column, you can access any column which ur not assiging, will come null;
+- when using record, you can use any order,but you cannot access the filed which u have not assigned otherwise error will come.
+
+- delcare constant variable using constant keyword.
+		example :-  variable_name constant data_type := value
+- constant value cannot be changed anywhere.
+
+- for message in plsql we have raise keyword. it has several levels	
+	-debug , log , notice , info, warning, exception(default level)
+	- format:- raise <level> 'Text_message %',<variable_name>;
+	- to use variables value in message you have to use % which is placeholder.
+	- the number of place holder used and no.of variable provided should be same otherwise error will come. 
+
+- there are asser statments also which raise exception/ error when condtion turns out to be false/null
+	- used only for debugging
+	- assert condtion , message;
+	- message is optional
+	- contion final output should be false/true or null
+
+- If structure
+	- if <condtion> then
+		<statement>
+		end if;
+	
+	- you can have elseif and else inside that. or nested if also.
+	
+- case statement	
+	- case <Condtion>
+		when <value based on condtion> then <statement>;
+		when <value based on condtion> then <statement>;
+		else
+		 <statement>;
+		 end;
+	
+	- case 
+	   when < condtion> then <statement>;
+		when < condtion> then <statement>;
+		else
+		 <statement>;
+		 end;
+
+- loop
+	- loop
+		<Statemnt>
+		<any condtion which will exit the loop> using exit keyword ( exit when n>10)
+		end loop

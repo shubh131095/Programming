@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 // array of strings find longest common prefix in all
 public class LongestCommonPrefix
@@ -16,9 +17,13 @@ public class LongestCommonPrefix
       if(s1.length() > s2.length()) return +1;
       else return -1;
     } );
+    /*list=list.stream()
+            .sorted((i,j)-> i.length()-j.length())
+            .collect( Collectors.toList());*/
+
    while(list.size()>1)
     {
-      String s1 = list.remove( 0 );
+      String s1 = list.remove( 0 ); // after removing 1st string i.e 0 index , string at index 1 will become index 0;
       String s2 = list.remove( 0 );
 
       String ans = findCommon(s1,s2);
