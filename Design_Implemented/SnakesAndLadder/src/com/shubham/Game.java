@@ -35,10 +35,15 @@ public class Game
         finalNo +=6;
         if(finalNo==18)
           return 0;
+        else
+          {
+            continue;
+          }
       }
         finalNo += newNumber;
-        return finalNo;
+        break;
     }
+    return finalNo;
   }
   public void setNextPlayerMove()
   {

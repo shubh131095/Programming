@@ -23,6 +23,7 @@ public class Traversal
     g.addEdge(1, 4, false);
     g.addEdge(2, 3, false);
     g.addEdge(3, 4, false);
+    g.addEdge(10, 4, false);
     doDFS(0,g.node.size(),g);
     System.out.println();
     doBFS(0,g.node.size(),g);

@@ -18,7 +18,7 @@ public class CamelPiece extends Piece
 
     if(!isUnderBoundary( start,end ) || isSameTeamPiece( start,end )) return false;
 
-    // here it can do to destination if no sameTeam or opponent team peice are present in path
+    // here it can go to destination if no sameTeam or opponent team peice are present in path
     // 4 cases
       // 1. both i and j are reducing - upper left diagonal
       // 2. both i and j are incr - lower right diagonal
@@ -34,6 +34,7 @@ public class CamelPiece extends Piece
     {
       for( int i=startX+1,j=startY+1;i<endX&&j<startY;i++,j++)
       {
+        // checking for every box in the dest box path,wehther is empty or not.
         Box curr = board.getSpecificBox(i,j);
         if(curr!=null)
         {

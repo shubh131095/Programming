@@ -116,6 +116,10 @@ Java
 	
 - final static int means it has to be intilized at that moment
 - final int  - it can be intilized in constructor.but every constructor should intilize it.
+-** In final we can change the properties of an object, we just cannot refernce it to new address.
+	ex :- final StringBuffer sb= new StringBuffer("");
+				sb.append("hello); // works
+				sb = new StringBuffer("naj") // error;
 	
 	
 - Binding -> getting the fucntion body when its called is binding.
@@ -445,6 +449,29 @@ Relationship(between classes)
 							}
 	- when you dont pass any argument to generic it accept the generic as Object, i.e you can store any value in it, but you have to Type cast respectively during use.
 	
+- Serializiation
+	- Serialization in Java is the process of converting the Java code Object into a Byte Stream, to transfer the Object Code from one Java Virtual machine to another and recreate it using the process of Deserialization.
+	- Need for serialization
+		- Communication
+		-Caching ( big objects ,as creating them can be a big overhead)
+		- can act as deepcopy
+		- Cross jvm support,since its a bytecode
+		- can persist the state of an object.
+	- parent or class should implement serializable  or Externalizable interface,if that class objects need to be serilaized
+	- if the object you want to serialize also contian another object, then ( other wise not seriazalble exception)
+		- either that object should be seriazable
+		- or it should be transient or static
+	- if you pass a filename to ouptfilestream which is not present it will create by default.
+	- for passing mutiple object best way to collect them in List and then serialize.
+	-** if your parent class is serializable and you dont want your child class to be serialzable( which becomes by default), then override readobject and writeobject method return nonseriazable exception.( public void readObject(ObjectInputStream in) throws exception{ throw new NotSerializableException();}
+	- study for inner class serilization
+	
+- Reflection in Java
+	- this api is very powerful and can be used in many ways
+	- to look into a object we can use it
+	- you can get the methods,variables of a object in runtime 
+	- you can access private memebers and even change thier visibilty using reflcetion
+	- obj.getclass(),.getMethods,.getDeclaredfileds() etc
 -----------------
 Collection and their imlementation
 
@@ -598,16 +625,36 @@ Collection and their imlementation
 	- terminal oprn -> foreach,reduce,collect.
 	- You can create stream using aaray.stream() or Stream.of()
 	- the array.stream work only for primitive data type i.e int double long.
-	- practice more for confidence.
+	- Streams are lazy -> means all the intermediate operation will be excuted only after encountering a terminal opeartion
+		- if you create a stream without any terminal opeartion, the stream will not do anything.
+	- genrally if u have multple intermdeiate oprn, then stream will take one data at a time and perform all operation,if it matches terminal oprn criterio it stops,other wise it does the same with 2nd element. BUT for some opertion this rule doesnt follow ( like sorted).
+	- the primitive type stream ( intStream,double and float) provides some extra terminal oprn like sum,average.
+		- u need to convert regular stream to primitve stream to use that.( using mapToInt() or mapToDouble())
+		- vice versa can also be done a primitive stream can be converted to normal stream by mapToObj().
 	Streams function
 		- filter -> used to filter the current stream. will not change the data , it will allow some input to pass for further processing.
 		- map    -> transform data, here same operation will be applied to all input. but the type of input comming and type of o/p leaving map cannot be guranteed.
 		- reduce ->  it can store result or look into streams of value forits operation.(map / filter cannot do that one data cannot be dependednt on another)
 						ex :- reduce ( intial_value , (last_value,new value) -> doperation_on(last_value,new_value))
+			- o/p of reduce function is always a single value.
+			- is of 3 types
+				- 1. intial value is not nedded and you have 2 parameter. 
+					ex:- .reduce( (e1,e2) -> e1+e2) , here e1 hold last value and e2 holds current stream value.
+				- 2. with intial value as gien above( intial value will be ouptut if stream is empty)
+				-3. take 3 arguments -> used for || stream.
 		- collect -> kind of reduce fuction, you can collect the o/p comming from streams to a list,map,set.
 						- creating a map can be very easy using this, tomap() inside collect can be used.
 							inside tomap() provide what key u need and what value u need.
 						- groupingBy() can be used to group data inside map.(practice to learn more)
+		- peek -> intermediate operation,genrally used for deubbing and logging, used to peek every data of current stream.( you can put peek after every intermdeiate opertion and log out the data to understand how current function modifies the stream)
+			- you can also perform operation on data.
+		- skip(n) -> use to skip first n elements of stream // intermedite
+		- limit(n) -> use to limit the stream data by n. // both
+		- count -> terminal oprn
+		- allMatch -> kind of filter but return if all stream data matches the given condtion.
+		- noMatch and anyMatch -> same like allMatch
+		- min and max -> return min/max element on stream based on comprator provided( otherwise natural odering).
+		
 
 - Clock Api (package introduced in java 8)
 	- Clock clock = Clock.systemDefaultZone();
@@ -765,4 +812,31 @@ Threads
 				2. function var( int... integers, String... a)
 			- the value recived will be an aaray and you can loop through the values
 			- can be overloaded but can cause ambiguity
+			
+			
+- valueOF and ParseInt
+	- both are used to parse value of string into number format.
+	- parseInt takes only String argument and return primtive int type;
+	- valueOf takes integer,character and string and return their respective value ( int and chr -> their ascii)
+	- valueOf perform better than parseInt as its caches the request.
+	
+- valueOf and toString
+	- both convert the given object value into string type
+	-internally valueOF calls toString method only
+	- toString fails for null whereas valueOf has an extra check for null.
+	
 				
+- In java you can have try block without catch block also, but u need finally.
+	- if any exception occurs,finally block will be executed and you can do the necessary there.
+
+- Java is platform independent becz of bytecode, after commpliation it genrate bytecode whereas c/c++ generate exe which is platform dependednt
+
+- Java doesnt provide fucntion pointer but we can do the same using lambda / method refernce.
+
+- You can create your custom iterator also in java just implement Iterator Interface.
+	- key points
+	- you cannot use for each to iterate using this custom iterator
+	- every colelction implements its own iteraable interface.
+	- to get for each functinality, you have to create a class where u should implement iterable and when implementing abstarct method return your custom iterator, then create a custom iterator and define your logic
+
+- Marker interface are just used as flags or a signal, which increases code readbility,but with arrival of annotaions , using annotations is more better than marker interface.

@@ -116,10 +116,16 @@ Java
 	
 - final static int means it has to be intilized at that moment
 - final int  - it can be intilized in constructor.but every constructor should intilize it.
+-** In final we can change the properties of an object, we just cannot refernce it to new address.
+	ex :- final StringBuffer sb= new StringBuffer("");
+				sb.append("hello); // works
+				sb = new StringBuffer("naj") // error;
 	
 	
 - Binding -> getting the fucntion body when its called is binding.
-	- Dynamic binding -> uses object to resolve binding at run time ( example overrding)
+	- Dynamic binding -> uses object to resolve binding at run time (  overrding)
+						- only non-static function can be overrided
+						- variables are never overided,so if u access any variable refernce type variable will be called.
 	- Static binding -> uses type of class and fileds bind at complie time(overloading )
 
 - Abstarction -> hiding imlementation, can be acheived by 2 ways
@@ -416,6 +422,7 @@ Relationship(between classes)
 	- finalize method is in object class and contain null implementation
 	- for every object finalize method are only called once.
 	- finalize are called before gc.
+	- its always better to not use this function
 	
 - Immutable class/Object
 	- immutable class object cannot be changed(state) like string;
@@ -445,6 +452,29 @@ Relationship(between classes)
 							}
 	- when you dont pass any argument to generic it accept the generic as Object, i.e you can store any value in it, but you have to Type cast respectively during use.
 	
+- Serializiation
+	- Serialization in Java is the process of converting the Java code Object into a Byte Stream, to transfer the Object Code from one Java Virtual machine to another and recreate it using the process of Deserialization.
+	- Need for serialization
+		- Communication
+		-Caching ( big objects ,as creating them can be a big overhead)
+		- can act as deepcopy
+		- Cross jvm support,since its a bytecode
+		- can persist the state of an object.
+	- parent or class should implement serializable  or Externalizable interface,if that class objects need to be serilaized
+	- if the object you want to serialize also contian another object, then ( other wise not seriazalble exception)
+		- either that object should be seriazable
+		- or it should be transient or static
+	- if you pass a filename to ouptfilestream which is not present it will create by default.
+	- for passing mutiple object best way to collect them in List and then serialize.
+	-** if your parent class is serializable and you dont want your child class to be serialzable( which becomes by default), then override readobject and writeobject method return nonseriazable exception.( public void readObject(ObjectInputStream in) throws exception{ throw new NotSerializableException();}
+	- study for inner class serilization
+	
+- Reflection in Java
+	- this api is very powerful and can be used in many ways
+	- to look into a object we can use it
+	- you can get the methods,variables of a object in runtime 
+	- you can access private memebers and even change thier visibilty using reflcetion
+	- obj.getclass(),.getMethods,.getDeclaredfileds() etc
 -----------------
 Collection and their imlementation
 
@@ -690,7 +720,15 @@ Threads
 		- two ways you can execute threads  using executor	
 			- submit and execute
 			- diffrence is submit return value( callable can also be used) and it hides un-handled excpetions, execute dont return values  and throws un-handle exceptions.
-		
+	- every single thread in java is eqivalent to single OS thread,thats why creating more thread should be avoided and thread reuse shuld be done.
+	- you can create 4 diff type of thread pool in java
+		- fixedThreadPool -> creates the no of threads mentioned in arguments and reuse once done( maintined by blocking queue internally)
+		- cachedThreadPool -> it 1st seraches if any thread is free then assign task to them otherwise create new thread.( in worst case it can create threads equal to no of task), it should be used when thread have short life.
+		-scheduledthreadPool -> it has 3 functions, with 3 diff apporach. internally it mantain delay queue( special kind based on when next task has to be run)
+							 -> .schedule(task,delay,TIMEUNIT) -> secdule a task after a delay mentioned in paramter.(run only once)
+							 -> .secduleAtFixedRate(task,intitalDelay,period,TimeUnit) -> keep repating the task at period time.
+							 -> .secduleWithFixedDelay(task,intitalDelay,period,TimeUnit) -> keep repating the task after period time of pervious running task.( same new task will be created after period time when same previous job is completed).
+							 -> singleThreadExecutor -> create only one thread,good for sequential running of task
 	- Callable
 		- can be passed to executorservice like runnable, but since callable returns a value and executor service dont, we have to use a new fetaure know as future.The callable sumbit will return a future and when the task is completed the value return by callable can be retreived from future.
 	- after submitting the callable to executorService we can take the value in future
@@ -707,6 +745,8 @@ Threads
 	- using synch keyword at block level is better as it let otheer threads do all the work which can be run parallelly
 	- You can aslo synchorinze static method , you may ask whats the use of it?
 		- let say you have some static variable that is shared among objects and u need to synchorizee that.
+	- Synchronization is mainly 2 type :- Object level( using objct level lock (this) while using synchronized keyword)
+										-> class Level ( when u create a static method u cant lock on object u need class lock ( ClassName.Class)
 	
 	-Locks
 		- Reentrant locks -> provide fucntion lock,tryLock  for locking and unlock for unlocking
@@ -799,3 +839,45 @@ Threads
 	- toString fails for null whereas valueOf has an extra check for null.
 	
 				
+- In java you can have try block without catch block also, but u need finally.
+	- if any exception occurs,finally block will be executed and you can do the necessary there.
+
+- Java is platform independent becz of bytecode, after commpliation it genrate bytecode whereas c/c++ generate exe which is platform dependednt
+
+- Java doesnt provide fucntion pointer but we can do the same using lambda / method refernce.
+
+- You can create your custom iterator also in java just implement Iterator Interface.
+	- key points
+	- you cannot use for each to iterate using this custom iterator
+	- every colelction implements its own iteraable interface.
+	- to get for each functinality, you have to create a class where u should implement iterable and when implementing abstarct method return your custom iterator, then create a custom iterator and define your logic
+
+- Marker interface are just used as flags or a signal, which increases code readbility,but with arrival of annotaions , using annotations is more better than marker interface.
+
+- ThreadLocal
+	- Its a way of creating a variable which will be used by threads and making it thread safe and impro perf.
+	- consider in ur run method( which is called by every thread), youre creating a new object. Now every thread will new object which is not good.
+	- Instead of that , you can create a ThreadLocal variable of type that variable and use it.No of Threadlocal variable will be limited to ThreadPool size.
+	- if you ask why not use a global variable and all thread use that. Problem is locking which will slow down our application.
+	- ThreadLocal has 2 method intilize( for intial value) and get method which will return the required value.
+
+
+--------------------
+JVM Archi
+	- JVM is a runtime eviron used to run your java application
+	- when u complie ur java code which is .java it gets converted to .class file(byte code) and then Jvm comes into action.
+	- JVM is contained inside JRE and due to JVM only , java is platform independent.( JVM is platform dependednt)
+	- there are 3 main section in Jvm
+		- Class Loader
+		- memory
+		- Execution Engine
+	
+	- Classloader
+		- reposnible for 3 main activites
+		- Linking , Loading and Intilization
+		- Loading :-	load all .class file in the method/prem gen area( memory)
+		- Linking	
+			-verify
+			- prepration
+			- resolution
+		- intilization
